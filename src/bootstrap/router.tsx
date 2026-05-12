@@ -5,7 +5,6 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import SystemLayout from '@/layouts/SystemLayout';
 import AuthLayout from '@/layouts/AuthLayout';
 import HomeLayout from '@/layouts/HomeLayout';
-import ChatLayout from '@/layouts/ChatLayout';
 
 // 页面使用 lazy load，按路由切分 chunk
 const Home = lazy(() => import('@/views/home'));
@@ -99,22 +98,6 @@ const router = createBrowserRouter([
   // ==============================
   // 内部系统区域
   // ==============================
-  // Chat 主页（/app/chat 必须在 /app 之前，确保优先匹配）
-  {
-    path: '/app/chat',
-    element: <ChatLayout />,
-    errorElement: <AppError />,
-    children: [
-      {
-        index: true,
-        element: <ChatPage />,
-      },
-      {
-        path: ':sessionId',
-        element: <ChatPage />,
-      },
-    ],
-  },
   {
     path: '/app',
     element: <SystemLayout />, // 承载：左侧导航 + 右侧助手 + 中间内容
@@ -132,6 +115,14 @@ const router = createBrowserRouter([
       {
         path: 'note/:noteId',
         element: <NoteView />,
+      },
+      {
+        path: 'chat',
+        element: <ChatPage />,
+      },
+      {
+        path: 'chat/:sessionId',
+        element: <ChatPage />,
       },
       // 文档与云盘页
       {
