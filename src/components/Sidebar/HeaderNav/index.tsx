@@ -3,7 +3,13 @@ import { Menu } from 'antd';
 import type { MenuProps } from 'antd';
 import { useRequest } from 'ahooks';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { RiAddCircleFill, RiFileTextLine, RiGroupFill, RiPenNibFill } from 'react-icons/ri';
+import {
+  RiAddCircleFill,
+  RiFileTextLine,
+  RiGroupFill,
+  RiPenNibFill,
+  RiRobot2Line,
+} from 'react-icons/ri';
 import { useChatService, useNoteService, useUserService } from '@/domains';
 import { RESOURCE_TYPE } from '@/constants/resource';
 import { useAppMessage } from '@/hooks/useAppMessage';
@@ -23,7 +29,14 @@ const HeaderNav: React.FC<HeaderNavProps> = ({ collapsed, onSessionCreated }) =>
 
   const isDriveActive = location.pathname.startsWith('/app/drive');
   const isGroupActive = location.pathname.startsWith('/app/my-group');
-  const selectedKeys = isDriveActive ? ['/app/drive'] : isGroupActive ? ['/app/my-group'] : [];
+  const isChatActive = location.pathname.startsWith('/app/chat');
+  const selectedKeys = isChatActive
+    ? ['/app/chat']
+    : isDriveActive
+      ? ['/app/drive']
+      : isGroupActive
+        ? ['/app/my-group']
+        : [];
   const { run: runCreateSession, loading: createSessionLoading } = useRequest(
     async () => chatService.createSession(),
     {
@@ -105,6 +118,12 @@ const HeaderNav: React.FC<HeaderNavProps> = ({ collapsed, onSessionCreated }) =>
       onClick: () => handleCreateNote(),
       disabled: creatingNote,
       label: '新建笔记',
+    },
+    {
+      key: '/app/chat',
+      icon: <RiRobot2Line size={18} />,
+      onClick: () => navigate('/app/chat'),
+      label: 'AI 对话',
     },
     {
       key: '/app/drive',
