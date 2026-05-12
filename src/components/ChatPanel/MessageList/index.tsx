@@ -10,6 +10,7 @@ interface MessageListProps {
   canLoadMoreHistory: boolean;
   loadingMoreHistory: boolean;
   onLoadMoreHistory: () => Promise<void>;
+  onPromptClick?: (text: string) => void;
 }
 
 const MessageList: React.FC<MessageListProps> = ({
@@ -17,6 +18,7 @@ const MessageList: React.FC<MessageListProps> = ({
   canLoadMoreHistory,
   loadingMoreHistory,
   onLoadMoreHistory,
+  onPromptClick,
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const lastMessage = messages[messages.length - 1];
@@ -72,7 +74,7 @@ const MessageList: React.FC<MessageListProps> = ({
   return (
     <div className={styles.container} ref={scrollRef}>
       {messages.length === 0 ? (
-        <Welcome />
+        <Welcome onPromptClick={onPromptClick} />
       ) : (
         <div>
           {canLoadMoreHistory && (

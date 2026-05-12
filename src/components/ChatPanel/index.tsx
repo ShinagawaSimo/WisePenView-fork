@@ -1,6 +1,8 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useMount, useRequest, useUpdateEffect } from 'ahooks';
 import { RiIndentIncrease } from 'react-icons/ri';
+import { PlusOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 import MessageList from './MessageList';
 import ChatInput from './ChatInput';
 import type { Message, Model } from '@/components/ChatPanel/index.type';
@@ -13,6 +15,7 @@ import {
   useNewChatSessionStore,
   useNoteSelectionStore,
 } from '@/store';
+import { clearChatPageStore } from '@/store/zustand';
 import { useChatSession } from '@/session/chat/useChatSession';
 import { mapApiModelsToFlatModels } from '@/domains/Chat';
 import { parseErrorMessage } from '@/utils/parseErrorMessage';
@@ -28,9 +31,11 @@ import styles from './style.module.less';
 
 interface ChatPanelProps {
   collapsed: boolean;
+  fullWidth?: boolean;
+  onNewChat?: () => void;
 }
 
-const ChatPanel: React.FC<ChatPanelProps> = ({ collapsed }) => {
+const ChatPanel: React.FC<ChatPanelProps> = ({ collapsed, fullWidth = false, onNewChat }) => {
   const chatService = useChatService();
   const messageApi = useAppMessage();
   const setChatPanelCollapsed = useChatPanelStore((state) => state.setChatPanelCollapsed);
@@ -258,6 +263,7 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ collapsed }) => {
   });
 
   useUpdateEffect(() => {
+    clearChatPageStore();
     if (!currentSessionId) {
       setHistoryMessages([]);
       setHistoryPage(1);
@@ -273,10 +279,10 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ collapsed }) => {
   }, [currentSessionId, loadHistoryMessages, setLiveMessages]);
 
   return (
-    <div className={styles.panel}>
+    <div className={`${styles.panel} ${fullWidth ? styles.fullWidth : ''}`}>
       <div className={`${styles.header} ${collapsed ? styles.collapsedHeader : ''}`}>
         <div className={styles.headerLeft}>
-          {!collapsed && (
+          {!collapsed && !fullWidth && (
             <button
               type="button"
               onClick={handleCollapsePanel}
@@ -292,6 +298,16 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ collapsed }) => {
             </div>
           )}
         </div>
+        {fullWidth && (
+          <Button
+            type="text"
+            icon={<PlusOutlined />}
+            className={styles.newChatBtn}
+            onClick={onNewChat}
+          >
+            新建对话
+          </Button>
+        )}
       </div>
       {!collapsed && (
         <>
@@ -301,6 +317,7 @@ const ChatPanel: React.FC<ChatPanelProps> = ({ collapsed }) => {
               canLoadMoreHistory={Boolean(currentSessionId) && historyPage < historyTotalPage}
               loadingMoreHistory={loadingMoreHistory}
               onLoadMoreHistory={loadMoreHistoryMessages}
+              onPromptClick={handleSend}
             />
           </div>
           <div className={styles.footer}>

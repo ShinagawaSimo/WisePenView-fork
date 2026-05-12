@@ -1,11 +1,6 @@
 import React from 'react';
 import { Button, Tooltip } from 'antd';
-import {
-  LuPlus, // 对应上传
-  LuSettings, // 对应设置
-  LuHistory, // 对应搜索/历史
-  LuSend, // 对应发送
-} from 'react-icons/lu';
+import { LuSend, LuPuzzle, LuFileText, LuPaperclip } from 'react-icons/lu';
 
 import ModelSelector from '../ModelSelector';
 import type { Model } from '@/components/ChatPanel/index.type';
@@ -16,6 +11,9 @@ interface ActionToolbarProps {
   onModelChange: (model: Model) => void;
   onSend: () => void;
   disabledSend: boolean;
+  onSkillClick: () => void;
+  onDocRefClick: () => void;
+  onAttachmentClick: () => void;
 }
 
 const ActionToolbar: React.FC<ActionToolbarProps> = ({
@@ -23,44 +21,49 @@ const ActionToolbar: React.FC<ActionToolbarProps> = ({
   onModelChange,
   onSend,
   disabledSend,
+  onSkillClick,
+  onDocRefClick,
+  onAttachmentClick,
 }) => {
   return (
     <div className={styles.actionToolbar}>
-      {/* 左侧功能区 */}
       <div className={styles.toolsLeft}>
-        {/* TODO: 以下按钮功能待接入 */}
-        {/* <Tooltip title="上传文件">
-          <Button
-            type="text"
-            size="small"
-            shape="circle"
-            className={styles.toolBtn} // 只需要一个类名控制颜色
-            icon={<LuPlus />}
-          />
-        </Tooltip>
-
-        <Tooltip title="设置">
+        <Tooltip title="选择 Skill">
           <Button
             type="text"
             size="small"
             shape="circle"
             className={styles.toolBtn}
-            icon={<LuSettings />}
+            icon={<LuPuzzle size={16} />}
+            onClick={onSkillClick}
           />
         </Tooltip>
 
-        <Tooltip title="历史记录">
+        <Tooltip title="引用文档">
           <Button
             type="text"
             size="small"
             shape="circle"
             className={styles.toolBtn}
-            icon={<LuHistory />}
+            icon={<LuFileText size={16} />}
+            onClick={onDocRefClick}
           />
-        </Tooltip> */}
+        </Tooltip>
+
+        <Tooltip title="添加附件">
+          <Button
+            type="text"
+            size="small"
+            shape="circle"
+            className={styles.toolBtn}
+            icon={<LuPaperclip size={16} />}
+            onClick={onAttachmentClick}
+          />
+        </Tooltip>
+
+        <span className={styles.skillHint}>@skill:名称 快速调用</span>
       </div>
 
-      {/* 右侧功能区 */}
       <div className={styles.toolsRight}>
         <ModelSelector value={modelValue} onChange={onModelChange} />
 

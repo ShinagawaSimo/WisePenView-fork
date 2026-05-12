@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { Layout } from 'antd';
 import { useMount, useUpdateEffect } from 'ahooks';
 import { LuBot } from 'react-icons/lu';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Sidebar from '@/components/Sidebar';
 import ChatPanel from '@/components/ChatPanel';
 import { useChatPanelStore, useCurrentChatSessionStore } from '@/store';
@@ -24,6 +24,7 @@ const getMaxChatPanelWidth = (): number => {
 const SystemLayout: React.FC = () => {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const chatResizeGuideRef = useRef<HTMLDivElement | null>(null);
+  const location = useLocation();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [chatResizing, setChatResizing] = useState(false);
   const chatPanelCollapsed = useChatPanelStore((state) => state.chatPanelCollapsed);
@@ -32,6 +33,7 @@ const SystemLayout: React.FC = () => {
   const setChatPanelWidth = useChatPanelStore((state) => state.setChatPanelWidth);
   const chatPanelWidthRef = useRef(chatPanelWidth);
   const currentSessionId = useCurrentChatSessionStore((state) => state.currentSessionId);
+  const isChatPage = location.pathname.startsWith('/app/chat');
   const hasSessionId = Boolean(currentSessionId);
   const safeChatPanelCollapsed = !hasSessionId || chatPanelCollapsed;
 
@@ -139,7 +141,7 @@ const SystemLayout: React.FC = () => {
 
       {/* 中间布局 */}
       <Layout className={styles.middleLayout}>
-        {hasSessionId && safeChatPanelCollapsed && (
+        {hasSessionId && safeChatPanelCollapsed && !isChatPage && (
           <div className={styles.chatHandleZone}>
             <button
               type="button"
@@ -156,27 +158,29 @@ const SystemLayout: React.FC = () => {
         </Content>
       </Layout>
 
-      {/* 右侧 AI Panel */}
-      <Sider
-        className={styles.rightSider}
-        width="var(--chat-panel-width)"
-        theme="light"
-        collapsed={safeChatPanelCollapsed}
-        collapsedWidth={0}
-        trigger={null}
-      >
-        {!safeChatPanelCollapsed && (
-          <button
-            type="button"
-            className={`${styles.chatResizeHandle} ${chatResizing ? styles.chatResizeHandleActive : ''}`}
-            onMouseDown={handleChatResizeStart}
-            aria-label="调整右侧边栏宽度"
-          />
-        )}
-        <div className={styles.rightSiderInner}>
-          {hasSessionId ? <ChatPanel collapsed={safeChatPanelCollapsed} /> : null}
-        </div>
-      </Sider>
+      {/* 右侧 AI Panel — Chat 主页时隐藏 */}
+      {!isChatPage && (
+        <Sider
+          className={styles.rightSider}
+          width="var(--chat-panel-width)"
+          theme="light"
+          collapsed={safeChatPanelCollapsed}
+          collapsedWidth={0}
+          trigger={null}
+        >
+          {!safeChatPanelCollapsed && (
+            <button
+              type="button"
+              className={`${styles.chatResizeHandle} ${chatResizing ? styles.chatResizeHandleActive : ''}`}
+              onMouseDown={handleChatResizeStart}
+              aria-label="调整右侧边栏宽度"
+            />
+          )}
+          <div className={styles.rightSiderInner}>
+            {hasSessionId ? <ChatPanel collapsed={safeChatPanelCollapsed} /> : null}
+          </div>
+        </Sider>
+      )}
     </Layout>
   );
 };

@@ -242,3 +242,21 @@ WisePenView/src/
     - `src/components/ChatPage/ChatMain/ChatTopBar.tsx` — 新增"新建对话"按钮（模型选择器下方）
     - `src/components/ChatPage/ChatMain/index.tsx` — 透传 `onNewChat` 回调
   - 结果：Chat 页面不再有第二栏，会话由 SystemLayout 左侧栏统一管理；SkillDrawer 暂时弃用
+- 2026-05-12
+  - 动作：根据负责人反馈调整方案——废弃独立 Chat 主页页面，改为增强现有 ChatPanel 并支持全宽模式
+  - 涉及文件（共 14 个）：
+    - `src/components/ChatPanel/ChatInput/ActionToolbar.tsx` — 替换 TODO 按钮为 Skill/文档/附件按钮 + @skill 提示
+    - `src/components/ChatPanel/ChatInput/index.tsx` — 集成 ContextTags、SkillPicker 弹层
+    - `src/components/ChatPanel/ChatInput/style.module.less` — 新增 `.skillHint`
+    - `src/components/ChatPanel/index.tsx` — 新增 `fullWidth`/`onNewChat` props、`clearChatPageStore`
+    - `src/components/ChatPanel/style.module.less` — 新增 `.fullWidth`（860px 居中）、`.newChatBtn`
+    - `src/components/ChatPanel/MessageList/Welcome.tsx` — 4 个通用提示词 chips（不依赖 Skill）
+    - `src/components/ChatPanel/MessageList/index.tsx` — 透传 `onPromptClick`
+    - `src/components/ChatPanel/MessageList/style.module.less` — 新增 `.promptSection`/`.promptChips`/`.promptChip`
+    - `src/session/chat/useChatSession.ts` — `buildRequestBody` 从 `useChatPageStore` 读取 skill/doc/attachment 拼装到请求体
+    - `src/bootstrap/router.tsx` — 保留 `/app/chat` 路由
+    - `src/layouts/SystemLayout.tsx` — `/app/chat` 路径下隐藏右侧 ChatPanel Sider
+    - `src/components/Sidebar/HeaderNav/index.tsx` — 保留"AI 对话"导航项
+    - `src/views/chat/index.tsx` — ChatPage 全宽包装 ChatPanel + session 路由同步 + handleNewChat
+  - 结果：`pnpm build` 通过。三种 Skill 触发方式就绪（语义/states、按钮+列表、@skill 命令）。ChatPanel 在 `/app/chat` 全宽渲染（860px 居中），其他页面右侧栏正常工作。提示词通用化，DocRefPicker/附件上传回调待对接。
+  - 备注：曾尝试全面美化后被否决，已回退至 Ant Design 原生变量风格

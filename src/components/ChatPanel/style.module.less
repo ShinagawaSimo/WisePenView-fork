@@ -5,8 +5,24 @@
   flex-direction: column;
   height: 100%;
   position: relative;
-  background-color: var(--ant-color-bg-layout); // 整体背景偏灰一点，区分侧边栏
-  overflow: hidden; // 防止整体出现滚动条
+  background-color: var(--ant-color-bg-layout);
+  overflow: hidden;
+
+  &.fullWidth {
+    background-color: var(--ant-color-bg-layout);
+
+    .content {
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .footer {
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
 }
 
 // 顶部栏
@@ -72,6 +88,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 260px;
+  }
+
+  .newChatBtn {
+    flex-shrink: 0;
   }
 }
 

@@ -2,8 +2,15 @@ import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
 import { useCallback } from 'react';
 import { useNoteSelectionStore } from '@/store';
+import { useChatPageStore } from '@/store/zustand';
 import { getApiBaseURL } from '@/apis/apiServerAddr';
-import type { ChatState, ChatRequestBody, UseChatSessionOptions } from './index.type';
+import type {
+  ChatState,
+  ChatRequestBody,
+  ChatAttachmentRef,
+  ChatResourceRef,
+  UseChatSessionOptions,
+} from './index.type';
 
 // 调用时求值：apiServerAddr 会在生产环境随网络变化运行时切换，固化会失效
 const getCompletionsApi = (): string => `${getApiBaseURL()}chat/completions`;
@@ -14,38 +21,64 @@ const buildRequestBody = ({
   model,
   selected,
   enableSelected,
+  activeSkill,
+  activeDocRefs,
+  activeAttachments,
 }: {
   sessionId: string;
   query: string;
   model?: string;
   selected?: string;
   enableSelected?: boolean;
+  activeSkill?: { skillId: string; name: string; version: string } | null;
+  activeDocRefs?: { resourceId: string; resourceName: string; enabled: boolean }[];
+  activeAttachments?: { attachmentId: string; filename: string; enabled: boolean }[];
 }): ChatRequestBody => {
   const normalizedStates: ChatState[] = [];
   const selectedValue = selected?.trim();
 
   if (selectedValue) {
-    const selectedIndex = normalizedStates.findIndex((state) => state.key === 'selected_text');
-    if (selectedIndex >= 0) {
-      normalizedStates[selectedIndex] = {
-        ...normalizedStates[selectedIndex],
-        value: selectedValue,
-        disabled: !enableSelected,
-      };
-    } else {
-      normalizedStates.push({
-        key: 'selected_text',
-        value: selectedValue,
-        disabled: !enableSelected,
-      });
-    }
+    normalizedStates.push({
+      key: 'selected_text',
+      value: selectedValue,
+      disabled: !enableSelected,
+    });
   }
+
+  if (activeSkill) {
+    normalizedStates.push({
+      key: 'active_skill',
+      value: activeSkill.skillId,
+      disabled: false,
+    });
+    normalizedStates.push({
+      key: 'skill_version',
+      value: activeSkill.version,
+      disabled: false,
+    });
+  }
+
+  const resourceRefs: ChatResourceRef[] = (activeDocRefs ?? [])
+    .filter((r) => r.enabled)
+    .map((r) => ({
+      resource_id: r.resourceId,
+      enabled: r.enabled,
+    }));
+
+  const attachmentRefs: ChatAttachmentRef[] = (activeAttachments ?? [])
+    .filter((a) => a.enabled)
+    .map((a) => ({
+      attachment_id: a.attachmentId,
+      enabled: a.enabled,
+    }));
 
   return {
     session_id: sessionId,
     query,
     ...(model ? { model } : {}),
     ...(normalizedStates.length > 0 ? { states: normalizedStates } : {}),
+    ...(resourceRefs.length > 0 ? { resource_refs: resourceRefs } : {}),
+    ...(attachmentRefs.length > 0 ? { attachment_refs: attachmentRefs } : {}),
   };
 };
 
@@ -79,12 +112,16 @@ export const useChatSession = ({
     ) => {
       const targetSessionId = options?.sessionId ?? sessionId;
       const selected = useNoteSelectionStore.getState().selectedTextByResourceId[targetSessionId];
+      const chatPageState = useChatPageStore.getState();
       const requestBody = buildRequestBody({
         sessionId: targetSessionId,
         query,
         model: options?.model ?? model,
         selected,
         enableSelected: options?.enableSelected ?? enableSelected,
+        activeSkill: chatPageState.activeSkill,
+        activeDocRefs: chatPageState.activeDocRefs,
+        activeAttachments: chatPageState.activeAttachments,
       });
       await chat.sendMessage({ text: query }, { body: requestBody });
     },
