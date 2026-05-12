@@ -21,7 +21,7 @@ const ChatMain: React.FC<ChatMainProps> = ({
 }) => {
   return (
     <div className={styles.main}>
-      <ChatTopBar currentModel={currentModel} onModelChange={onModelChange} sending={sending} />
+      <ChatTopBar currentModelId={currentModel?.id ?? ''} onModelChange={onModelChange} />
       <div className={styles.content}>
         {children}
         {!hasMessages && (

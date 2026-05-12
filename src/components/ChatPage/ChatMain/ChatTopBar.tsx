@@ -5,19 +5,18 @@ import type { Model } from '@/components/ChatPanel/index.type';
 import styles from './style.module.less';
 
 interface ChatTopBarProps {
-  currentModel: Model | null;
+  currentModelId: string;
   onModelChange: (model: Model) => void;
-  sending: boolean;
 }
 
-const ChatTopBar: React.FC<ChatTopBarProps> = ({ currentModel, onModelChange, sending }) => {
+const ChatTopBar: React.FC<ChatTopBarProps> = ({ currentModelId, onModelChange }) => {
   const activeAttachments = useChatPageStore((s) => s.activeAttachments);
   const activeDocRefs = useChatPageStore((s) => s.activeDocRefs);
   const activeSkill = useChatPageStore((s) => s.activeSkill);
 
   return (
     <div className={styles.topBar}>
-      <ModelSelector currentModel={currentModel} onModelChange={onModelChange} sending={sending} />
+      <ModelSelector value={currentModelId} onChange={onModelChange} />
       <div className={styles.topBarRight}>
         {activeAttachments.length > 0 && (
           <span className={styles.statusIcon}>📎 {activeAttachments.length}</span>

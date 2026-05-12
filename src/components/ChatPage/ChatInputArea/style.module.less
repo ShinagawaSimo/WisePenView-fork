@@ -1,0 +1,107 @@
+.inputArea {
+  padding: 12px 16px 16px;
+  border-top: 1px solid var(--ant-color-border-secondary);
+  flex-shrink: 0;
+}
+
+.toolbar {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.toolbarBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border: 1px solid var(--ant-color-border-secondary);
+  border-radius: 16px;
+  background: var(--ant-color-bg-container);
+  font-size: 11px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+
+  &:hover {
+    border-color: var(--ant-color-primary);
+  }
+}
+
+.toolbarHint {
+  font-size: 10px;
+  color: var(--ant-color-text-quaternary);
+  margin-left: auto;
+}
+
+.tags {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+
+  &.skillTag {
+    background-color: var(--ant-color-primary-bg);
+    color: var(--ant-color-primary-text);
+  }
+
+  &.docTag {
+    background-color: #fff3e0;
+    color: #e65100;
+  }
+
+  &.attachmentTag {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+}
+
+.tagRemove {
+  cursor: pointer;
+  opacity: 0.6;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.inputRow {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  border: 1px solid var(--ant-color-border-secondary);
+  border-radius: 12px;
+  padding: 8px 12px;
+  background-color: var(--ant-color-bg-container);
+  transition: border-color 0.15s;
+
+  &:focus-within {
+    border-color: var(--ant-color-primary);
+  }
+}
+
+.textarea {
+  flex: 1;
+  border: none;
+  outline: none;
+  resize: none;
+  min-height: 24px;
+  max-height: 120px;
+  font-size: 13px;
+  line-height: 1.5;
+  background: transparent;
+  font-family: inherit;
+}
+
+.sendBtn {
+  flex-shrink: 0;
+}
