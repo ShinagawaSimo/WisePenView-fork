@@ -9,6 +9,7 @@ import { clearTrashTagStore } from './useTrashTagStore';
 import { clearTreeDriveCwdStores } from './useTreeDriveCwdStore';
 import { clearNewNoteStore } from './useNewNoteStore';
 import { clearNewChatSessionStore } from './useNewChatSessionStore';
+import { clearChatPageStore } from './useChatPageStore';
 
 export function clearAllZustandStores(): void {
   clearChatModelPreferenceStore();
@@ -22,4 +23,5 @@ export function clearAllZustandStores(): void {
   clearTreeDriveCwdStores();
   clearNewNoteStore();
   clearNewChatSessionStore();
+  clearChatPageStore();
 }

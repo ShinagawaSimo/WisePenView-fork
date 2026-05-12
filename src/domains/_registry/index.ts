@@ -43,4 +43,5 @@ export {
   useTagService,
   useUserService,
   useWalletService,
+  useSkillService,
 } from './hooks';

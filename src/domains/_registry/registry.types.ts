@@ -12,6 +12,7 @@ import type { IStickerService } from '@/domains/Sticker';
 import type { ITagService } from '@/domains/Tag';
 import type { IUserService } from '@/domains/User';
 import type { IWalletService } from '@/domains/Wallet';
+import type { ISkillService } from '@/domains/Skill';
 
 export interface ServicesContextValue {
   authService: IAuthService;
@@ -27,4 +28,5 @@ export interface ServicesContextValue {
   tagService: ITagService;
   userService: IUserService;
   walletService: IWalletService;
+  skillService: ISkillService;
 }

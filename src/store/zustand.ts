@@ -32,4 +32,6 @@ export {
 } from './useTreeDriveCwdStore';
 export { useNewNoteStore, clearNewNoteStore } from './useNewNoteStore';
 export { useNewChatSessionStore, clearNewChatSessionStore } from './useNewChatSessionStore';
+export { useChatPageStore, clearChatPageStore } from './useChatPageStore';
+export type { ActiveSkill, ActiveDocRef, ActiveAttachment } from './useChatPageStore';
 export { clearAllZustandStores } from './clearAllStores';

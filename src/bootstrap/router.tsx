@@ -5,6 +5,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import SystemLayout from '@/layouts/SystemLayout';
 import AuthLayout from '@/layouts/AuthLayout';
 import HomeLayout from '@/layouts/HomeLayout';
+import ChatLayout from '@/layouts/ChatLayout';
 
 // 页面使用 lazy load，按路由切分 chunk
 const Home = lazy(() => import('@/views/home'));
@@ -21,6 +22,7 @@ const VerifyEmail = lazy(() => import('@/views/auth/VerifyEmail'));
 const NoteView = lazy(() => import('@/views/note'));
 const PdfPreview = lazy(() => import('@/views/pdf/PdfPreview'));
 const ResourceNotFound = lazy(() => import('@/views/error/ResourceNotFound'));
+const ChatPage = lazy(() => import('@/views/chat'));
 const AppError = lazy(() => import('@/views/error/AppError'));
 
 const router = createBrowserRouter([
@@ -139,6 +141,25 @@ const router = createBrowserRouter([
       {
         path: 'pdf/:resourceId',
         element: <PdfPreview />,
+      },
+    ],
+  },
+
+  // ==============================
+  // 聊天区域
+  // ==============================
+  {
+    path: '/chat',
+    element: <ChatLayout />,
+    errorElement: <AppError />,
+    children: [
+      {
+        index: true,
+        element: <ChatPage />,
+      },
+      {
+        path: ':sessionId',
+        element: <ChatPage />,
       },
     ],
   },

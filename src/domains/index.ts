@@ -16,5 +16,7 @@ export {
   useTagService,
   useUserService,
   useWalletService,
+  useSkillService,
 } from './_registry';
 export type { ServicesContextValue } from './_registry';
+export type { ISkillService, SkillSummary, SkillDetail, SkillVersion } from './Skill';

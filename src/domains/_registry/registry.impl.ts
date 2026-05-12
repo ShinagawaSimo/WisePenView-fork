@@ -23,6 +23,7 @@ import { createStickerServices } from '@/domains/Sticker/service/StickerServices
 import { createTagServices } from '@/domains/Tag/service/TagServices.impl';
 import { createUserServices } from '@/domains/User/service/UserServices.impl';
 import { createWalletServices } from '@/domains/Wallet/service/WalletServices.impl';
+import { createSkillServices } from '@/domains/Skill/service/SkillServices.impl';
 
 import type { ServicesContextValue } from './registry.types';
 
@@ -37,6 +38,7 @@ const quotaService = createQuotaServices();
 const resourceService = createResourceServices();
 const userService = createUserServices();
 const walletService = createWalletServices();
+const skillService = createSkillServices();
 
 // Level 1：依赖 Level 0
 const tagService = createTagServices({ resourceService: resourceService });
@@ -57,6 +59,7 @@ const servicesValue: ServicesContextValue = {
   tagService: tagService,
   userService: userService,
   walletService: walletService,
+  skillService: skillService,
 };
 
 export function getContextValue(): ServicesContextValue {
