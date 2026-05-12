@@ -1,0 +1,94 @@
+.drawer {
+  border-top: 1px solid var(--ant-color-border-secondary);
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  background-color: var(--ant-color-fill-quaternary);
+  user-select: none;
+
+  &:hover {
+    background-color: var(--ant-color-fill-tertiary);
+  }
+}
+
+.toggleIcon {
+  font-size: 12px;
+  margin-right: 6px;
+}
+
+.toggleLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ant-color-text);
+}
+
+.toggleCount {
+  margin-left: 6px;
+  font-size: 10px;
+  color: var(--ant-color-text-tertiary);
+}
+
+.toggleArrow {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--ant-color-text-tertiary);
+  transition: transform 0.15s;
+
+  &.open {
+    transform: rotate(180deg);
+  }
+}
+
+.body {
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.skillItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+
+  &:hover {
+    background-color: var(--ant-color-fill-tertiary);
+  }
+
+  &.selected {
+    background-color: var(--ant-color-primary-bg);
+  }
+}
+
+.skillIcon {
+  font-size: 13px;
+}
+
+.skillName {
+  font-weight: 500;
+  flex: 1;
+}
+
+.skillVersion {
+  font-size: 10px;
+  color: var(--ant-color-text-tertiary);
+}
+
+.manageLink {
+  display: block;
+  padding: 6px 0 2px;
+  font-size: 10px;
+  color: var(--ant-color-primary);
+  cursor: pointer;
+}
