@@ -210,3 +210,15 @@ WisePenView/src/
     - DocRefPicker / 附件上传 / SkillService 真实 API 对接待后端就绪
     - @skill:xxx 自动补全待实现
     - 未进行完整的 mock 模式端到端测试
+- 2026-05-12
+  - 动作：Chat 页面 UI 调整——路由迁移、侧边栏折叠、字号增大、配色对齐 WisePen 主题
+  - 涉及文件：
+    - `src/bootstrap/router.tsx` — 路由从 `/chat` 迁移到 `/app/chat`
+    - `src/layouts/ChatLayout.tsx` — 新增侧边栏折叠/展开按钮，路由路径更新
+    - `src/layouts/ChatLayout.module.less` — 新增折叠态样式，sidebar 宽度 240px
+    - `src/views/chat/index.tsx` — 路由路径更新
+    - `src/components/ChatPage/ChatSidebar/style.module.less` — 字号增大（11→13/14px）
+    - `src/components/ChatPage/SkillDrawer/style.module.less` — 字号增大（11→13/14px）
+    - `src/components/ChatPage/ChatMain/style.module.less` — 字号增大，卡片 hover 改为 WisePen accent 色 `#5790c8`
+    - `src/components/ChatPage/ChatInputArea/style.module.less` — 字号增大，标签色从橙/绿改为 WisePen 蓝灰调
+  - 结果：`pnpm build` 通过，访问路径 `/app/chat`、`/app/chat/:sessionId`
