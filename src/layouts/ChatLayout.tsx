@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useMount, useRequest } from 'ahooks';
+import { RiSidebarFoldLine, RiSidebarUnfoldLine } from 'react-icons/ri';
 import { useChatService } from '@/domains';
 import { useAppMessage } from '@/hooks/useAppMessage';
 import { useCurrentChatSessionStore, useNewChatSessionStore } from '@/store/zustand';
@@ -10,6 +11,8 @@ import SkillDrawer from '@/components/ChatPage/SkillDrawer';
 import type { SessionItemData } from '@/components/ChatPage/ChatSidebar';
 import styles from './ChatLayout.module.less';
 
+const BASE = '/app/chat';
+
 const ChatLayout: React.FC = () => {
   const navigate = useNavigate();
   const chatService = useChatService();
@@ -18,6 +21,7 @@ const ChatLayout: React.FC = () => {
   const currentSessionId = useCurrentChatSessionStore((s) => s.currentSessionId);
   const setCurrentSession = useCurrentChatSessionStore((s) => s.setCurrentSession);
 
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sessions, setSessions] = useState<SessionItemData[]>([]);
 
   const { runAsync: runCreateSession } = useRequest(() => chatService.createSession(), {
@@ -57,7 +61,7 @@ const ChatLayout: React.FC = () => {
     try {
       const created = await runCreateSession();
       setCurrentSession({ id: created.id, title: created.title });
-      navigate(`/chat/${created.id}`, { replace: true });
+      navigate(`${BASE}/${created.id}`, { replace: true });
       useNewChatSessionStore.getState().setNewChatSession({ id: created.id, title: created.title });
       refreshSessions();
     } catch (error) {
@@ -68,7 +72,7 @@ const ChatLayout: React.FC = () => {
   const handleSelectSession = useCallback(
     (id: string) => {
       setCurrentSession({ id, title: '' });
-      navigate(`/chat/${id}`, { replace: true });
+      navigate(`${BASE}/${id}`, { replace: true });
     },
     [setCurrentSession, navigate]
   );
@@ -80,7 +84,7 @@ const ChatLayout: React.FC = () => {
         setSessions((prev) => prev.filter((s) => s.id !== id));
         if (id === currentSessionId) {
           setCurrentSession({ id: '', title: '' });
-          navigate('/chat', { replace: true });
+          navigate(BASE, { replace: true });
         }
       } catch (error) {
         messageApi.error(parseErrorMessage(error, '删除失败'));
@@ -108,17 +112,33 @@ const ChatLayout: React.FC = () => {
 
   return (
     <div className={styles.root}>
-      <aside className={styles.sidebar}>
-        <ChatSidebar
-          sessions={sessions}
-          activeSessionId={currentSessionId ?? null}
-          onNewChat={handleNewChat}
-          onSelectSession={handleSelectSession}
-          onRenameSession={handleRenameSession}
-          onDeleteSession={handleDeleteSession}
-        />
-        <SkillDrawer />
+      <aside className={`${styles.sidebar} ${sidebarCollapsed ? styles.sidebarCollapsed : ''}`}>
+        {!sidebarCollapsed && (
+          <>
+            <ChatSidebar
+              sessions={sessions}
+              activeSessionId={currentSessionId ?? null}
+              onNewChat={handleNewChat}
+              onSelectSession={handleSelectSession}
+              onRenameSession={handleRenameSession}
+              onDeleteSession={handleDeleteSession}
+            />
+            <SkillDrawer />
+          </>
+        )}
       </aside>
+
+      <div className={styles.collapseZone}>
+        <button
+          type="button"
+          className={styles.collapseBtn}
+          onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+          aria-label={sidebarCollapsed ? '展开侧边栏' : '收起侧边栏'}
+        >
+          {sidebarCollapsed ? <RiSidebarUnfoldLine size={18} /> : <RiSidebarFoldLine size={18} />}
+        </button>
+      </div>
+
       <main className={styles.main}>
         <Outlet />
       </main>

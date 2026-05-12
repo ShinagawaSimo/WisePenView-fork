@@ -1,3 +1,5 @@
+@accent: #5790c8;
+
 .main {
   display: flex;
   flex-direction: column;
@@ -7,10 +9,11 @@
 .topBar {
   display: flex;
   align-items: center;
-  padding: 8px 16px;
+  padding: 10px 20px;
   border-bottom: 1px solid var(--ant-color-border-secondary);
   gap: 12px;
   flex-shrink: 0;
+  min-height: 52px;
 }
 
 .topBarRight {
@@ -18,15 +21,15 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .statusIcon {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--ant-color-text-tertiary);
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 4px;
 }
 
 .content {
@@ -42,56 +45,60 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 40px 20px;
 }
 
 .welcomeTitle {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 700;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
+  color: var(--ant-color-text);
 }
 
 .welcomeSubtitle {
   color: var(--ant-color-text-tertiary);
-  font-size: 13px;
-  margin-bottom: 24px;
+  font-size: 15px;
+  margin-bottom: 32px;
 }
 
 .cards {
   display: flex;
-  gap: 12px;
+  gap: 16px;
   flex-wrap: wrap;
   justify-content: center;
-  max-width: 560px;
+  max-width: 600px;
 }
 
 .card {
-  width: 160px;
-  padding: 14px;
+  width: 172px;
+  padding: 18px 16px;
   border: 1px solid var(--ant-color-border-secondary);
-  border-radius: 10px;
+  border-radius: 12px;
   text-align: center;
   cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
 
   &:hover {
-    border-color: var(--ant-color-primary);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border-color: @accent;
+    box-shadow: 0 2px 12px rgba(87, 144, 200, 0.12);
+    transform: translateY(-2px);
   }
 }
 
 .cardIcon {
-  font-size: 24px;
-  margin-bottom: 6px;
+  font-size: 28px;
+  margin-bottom: 8px;
 }
 
 .cardTitle {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
+  color: var(--ant-color-text);
 }
 
 .cardDesc {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--ant-color-text-tertiary);
+  line-height: 1.5;
 }

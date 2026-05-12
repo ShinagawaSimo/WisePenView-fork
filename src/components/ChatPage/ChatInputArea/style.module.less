@@ -1,13 +1,13 @@
 .inputArea {
-  padding: 12px 16px 16px;
+  padding: 14px 20px 20px;
   border-top: 1px solid var(--ant-color-border-secondary);
   flex-shrink: 0;
 }
 
 .toolbar {
   display: flex;
-  gap: 4px;
-  margin-bottom: 8px;
+  gap: 6px;
+  margin-bottom: 10px;
   align-items: center;
 }
 
@@ -15,21 +15,23 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 4px 10px;
+  padding: 5px 12px;
   border: 1px solid var(--ant-color-border-secondary);
   border-radius: 16px;
   background: var(--ant-color-bg-container);
-  font-size: 11px;
+  font-size: 13px;
   cursor: pointer;
-  transition: border-color 0.15s;
+  color: var(--ant-color-text-secondary);
+  transition: border-color 0.15s, color 0.15s;
 
   &:hover {
     border-color: var(--ant-color-primary);
+    color: var(--ant-color-primary);
   }
 }
 
 .toolbarHint {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--ant-color-text-quaternary);
   margin-left: auto;
 }
@@ -37,7 +39,7 @@
 .tags {
   display: flex;
   gap: 6px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   flex-wrap: wrap;
 }
 
@@ -45,9 +47,9 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 2px 8px;
+  padding: 3px 10px;
   border-radius: 12px;
-  font-size: 11px;
+  font-size: 13px;
 
   &.skillTag {
     background-color: var(--ant-color-primary-bg);
@@ -55,19 +57,21 @@
   }
 
   &.docTag {
-    background-color: #fff3e0;
-    color: #e65100;
+    background-color: #eef2f6;
+    color: #314659;
   }
 
   &.attachmentTag {
-    background-color: #e8f5e9;
-    color: #2e7d32;
+    background-color: #ecf3f5;
+    color: #3d6b7a;
   }
 }
 
 .tagRemove {
   cursor: pointer;
-  opacity: 0.6;
+  opacity: 0.55;
+  font-size: 11px;
+  margin-left: 2px;
 
   &:hover {
     opacity: 1;
@@ -76,16 +80,17 @@
 
 .inputRow {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   align-items: flex-end;
   border: 1px solid var(--ant-color-border-secondary);
   border-radius: 12px;
-  padding: 8px 12px;
+  padding: 10px 14px;
   background-color: var(--ant-color-bg-container);
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, box-shadow 0.15s;
 
   &:focus-within {
     border-color: var(--ant-color-primary);
+    box-shadow: 0 0 0 2px rgba(49, 70, 89, 0.12);
   }
 }
 
@@ -95,9 +100,9 @@
   outline: none;
   resize: none;
   min-height: 24px;
-  max-height: 120px;
-  font-size: 13px;
-  line-height: 1.5;
+  max-height: 140px;
+  font-size: 15px;
+  line-height: 1.6;
   background: transparent;
   font-family: inherit;
 }

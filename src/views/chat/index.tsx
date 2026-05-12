@@ -126,7 +126,7 @@ const ChatPage: React.FC = () => {
           const created = await runCreateSession();
           targetId = created.id;
           setCurrentSession({ id: created.id, title: created.title });
-          navigate(`/chat/${created.id}`, { replace: true });
+          navigate(`/app/chat/${created.id}`, { replace: true });
         } catch (error) {
           messageApi.error(parseErrorMessage(error, '新建聊天失败'));
           return;

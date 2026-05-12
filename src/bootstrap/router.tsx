@@ -99,6 +99,22 @@ const router = createBrowserRouter([
   // ==============================
   // 内部系统区域
   // ==============================
+  // Chat 主页（/app/chat 必须在 /app 之前，确保优先匹配）
+  {
+    path: '/app/chat',
+    element: <ChatLayout />,
+    errorElement: <AppError />,
+    children: [
+      {
+        index: true,
+        element: <ChatPage />,
+      },
+      {
+        path: ':sessionId',
+        element: <ChatPage />,
+      },
+    ],
+  },
   {
     path: '/app',
     element: <SystemLayout />, // 承载：左侧导航 + 右侧助手 + 中间内容
@@ -141,25 +157,6 @@ const router = createBrowserRouter([
       {
         path: 'pdf/:resourceId',
         element: <PdfPreview />,
-      },
-    ],
-  },
-
-  // ==============================
-  // 聊天区域
-  // ==============================
-  {
-    path: '/chat',
-    element: <ChatLayout />,
-    errorElement: <AppError />,
-    children: [
-      {
-        index: true,
-        element: <ChatPage />,
-      },
-      {
-        path: ':sessionId',
-        element: <ChatPage />,
       },
     ],
   },
