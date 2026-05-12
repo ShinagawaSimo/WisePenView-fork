@@ -25,11 +25,7 @@ const ChatMain: React.FC<ChatMainProps> = ({
       <div className={styles.content}>
         {children}
         {!hasMessages && (
-          <WelcomeCards
-            onSearchDocs={() => {}}
-            onUseSkill={() => {}}
-            onUploadFile={() => {}}
-          />
+          <WelcomeCards onSearchDocs={() => {}} onUseSkill={() => {}} onUploadFile={() => {}} />
         )}
       </div>
     </div>

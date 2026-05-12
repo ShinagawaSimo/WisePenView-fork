@@ -17,11 +17,7 @@ const ChatTopBar: React.FC<ChatTopBarProps> = ({ currentModel, onModelChange, se
 
   return (
     <div className={styles.topBar}>
-      <ModelSelector
-        currentModel={currentModel}
-        onModelChange={onModelChange}
-        sending={sending}
-      />
+      <ModelSelector currentModel={currentModel} onModelChange={onModelChange} sending={sending} />
       <div className={styles.topBarRight}>
         {activeAttachments.length > 0 && (
           <span className={styles.statusIcon}>📎 {activeAttachments.length}</span>
