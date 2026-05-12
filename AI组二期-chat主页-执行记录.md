@@ -226,3 +226,11 @@ WisePenView/src/
   - 动作：在 SystemLayout 左侧导航栏（HeaderNav）中添加"AI 对话"菜单项
   - 涉及文件：`src/components/Sidebar/HeaderNav/index.tsx`
   - 结果：左侧导航栏新增 🤖 AI 对话入口，点击跳转 `/app/chat`，激活时高亮
+- 2026-05-12
+  - 动作：将 Chat 页面嵌入 SystemLayout 内容区，不再使用独立 ChatLayout
+  - 涉及文件：
+    - `src/bootstrap/router.tsx` — `/app/chat` 改为 SystemLayout 子路由
+    - `src/views/chat/index.tsx` — ChatPage 自带内部分栏（会话侧边栏 + 聊天区），集成会话 CRUD
+    - `src/views/chat/style.module.less` — 新增，内部分栏布局样式
+    - `src/layouts/ChatLayout.tsx`、`ChatLayout.module.less` — 删除，不再需要
+  - 结果：`pnpm build` 通过，Chat 页面与 drive/note 等页面保持一致的 SystemLayout 体验
