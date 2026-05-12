@@ -234,3 +234,11 @@ WisePenView/src/
     - `src/views/chat/style.module.less` — 新增，内部分栏布局样式
     - `src/layouts/ChatLayout.tsx`、`ChatLayout.module.less` — 删除，不再需要
   - 结果：`pnpm build` 通过，Chat 页面与 drive/note 等页面保持一致的 SystemLayout 体验
+- 2026-05-12
+  - 动作：移除 ChatPage 内部重复的会话侧边栏和 SkillDrawer，统一使用 SystemLayout 左侧栏会话列表
+  - 涉及文件：
+    - `src/views/chat/index.tsx` — 删除内部分栏布局、会话 CRUD、SkillDrawer，简化为纯聊天区
+    - `src/views/chat/style.module.less` — 简化为单栏 flex 布局
+    - `src/components/ChatPage/ChatMain/ChatTopBar.tsx` — 新增"新建对话"按钮（模型选择器下方）
+    - `src/components/ChatPage/ChatMain/index.tsx` — 透传 `onNewChat` 回调
+  - 结果：Chat 页面不再有第二栏，会话由 SystemLayout 左侧栏统一管理；SkillDrawer 暂时弃用
