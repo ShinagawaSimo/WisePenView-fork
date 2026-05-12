@@ -222,3 +222,7 @@ WisePenView/src/
     - `src/components/ChatPage/ChatMain/style.module.less` — 字号增大，卡片 hover 改为 WisePen accent 色 `#5790c8`
     - `src/components/ChatPage/ChatInputArea/style.module.less` — 字号增大，标签色从橙/绿改为 WisePen 蓝灰调
   - 结果：`pnpm build` 通过，访问路径 `/app/chat`、`/app/chat/:sessionId`
+- 2026-05-12
+  - 动作：在 SystemLayout 左侧导航栏（HeaderNav）中添加"AI 对话"菜单项
+  - 涉及文件：`src/components/Sidebar/HeaderNav/index.tsx`
+  - 结果：左侧导航栏新增 🤖 AI 对话入口，点击跳转 `/app/chat`，激活时高亮
