@@ -69,6 +69,7 @@ const buildRequestBody = ({
     .filter((a) => a.enabled)
     .map((a) => ({
       attachment_id: a.attachmentId,
+      filename: a.filename,
       enabled: a.enabled,
     }));
 

@@ -6,6 +6,7 @@ interface ChatState {
 
 interface ChatAttachmentRef {
   attachment_id: string;
+  filename?: string;
   enabled: boolean;
   context_mode?: string;
 }
