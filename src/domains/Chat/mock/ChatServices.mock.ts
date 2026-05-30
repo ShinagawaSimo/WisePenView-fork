@@ -239,6 +239,12 @@ const listHistoryMessages: IChatService['listHistoryMessages'] = async (
   };
 };
 
+const uploadAttachment: IChatService['uploadAttachment'] = async (sessionId, file) => {
+  return { session_id: sessionId, filename: file.name, file_size: file.size };
+};
+
+const deleteAttachment: IChatService['deleteAttachment'] = async () => {};
+
 export const ChatServicesMock: IChatService = {
   getModels,
   createSession,
@@ -246,4 +252,6 @@ export const ChatServicesMock: IChatService = {
   deleteSession,
   listSessions,
   listHistoryMessages,
+  uploadAttachment,
+  deleteAttachment,
 };

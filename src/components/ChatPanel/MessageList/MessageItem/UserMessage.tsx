@@ -1,8 +1,9 @@
 import type { Message } from '@/components/ChatPanel/index.type';
 import { Button, toast } from '@heroui/react';
 
+import { formatFileSize } from '@/utils/format/formatFileSize';
 import React from 'react';
-import { LuCheck, LuCopy } from 'react-icons/lu';
+import { LuCheck, LuCopy, LuFile } from 'react-icons/lu';
 import MessageContent from './MessageContent';
 import styles from './UserMessage.module.less';
 
@@ -46,6 +47,17 @@ function UserMessage({ message }: UserMessageProps) {
         {/* 气泡 */}
         <div className={styles.bubble}>
           <MessageContent content={message.content} />
+          {message.attachmentMetas && message.attachmentMetas.length > 0 && (
+            <div className={styles.attachBar}>
+              {message.attachmentMetas.map((a, i) => (
+                <div key={i} className={styles.attachChip}>
+                  <LuFile className={styles.attachIcon} />
+                  <span className={styles.attachName}>{a.name}</span>
+                  <span className={styles.attachSize}>{formatFileSize(a.size)}</span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import type { Model as BackendModel } from '@/domains/Chat';
+import type { UploadAttachmentResult } from '../apis/ChatApi.type';
 
 /** ChatService 接口 */
 export interface IChatService {
@@ -8,6 +9,12 @@ export interface IChatService {
   deleteSession(params: DeleteSessionRequest): Promise<void>;
   listSessions(params?: ListSessionsRequest): Promise<PageResult<ChatSession>>;
   listHistoryMessages(params: ListHistoryMessagesRequest): Promise<PageResult<MessageResponse>>;
+  uploadAttachment(
+    sessionId: string,
+    file: File,
+    enableLibrary?: boolean
+  ): Promise<UploadAttachmentResult>;
+  deleteAttachment(sessionId: string, filename: string): Promise<void>;
 }
 
 /** `GET /model/listModels` 的 data 字段结构 */

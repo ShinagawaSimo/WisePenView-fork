@@ -1,22 +1,68 @@
-import { Button } from '@heroui/react';
-import { LuSend } from 'react-icons/lu';
+import { Button, Tooltip } from '@heroui/react';
+import { Popover } from 'antd';
+import { useState } from 'react';
+import {
+  LuHistory,
+  LuPlus, // 对应搜索/历史
+  LuSend, // 对应上传
+  LuSettings, // 对应设置
+} from 'react-icons/lu';
 
-import type { Model } from '@/components/ChatPanel/index.type';
 import ModelSelector from '../ModelSelector';
+import type { ActionToolbarProps } from './index.type';
+import { SettingsContent } from './SettingsPopover';
 import styles from './style.module.less';
 
-interface ActionToolbarProps {
-  modelValue: string;
-  onModelChange: (model: Model) => void;
-  onSend: () => void;
-  disabledSend: boolean;
-}
+function ActionToolbar({
+  modelValue,
+  onModelChange,
+  onSend,
+  disabledSend,
+  onUpload,
+}: ActionToolbarProps) {
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
-function ActionToolbar({ modelValue, onModelChange, onSend, disabledSend }: ActionToolbarProps) {
   return (
     <div className={styles.actionToolbar}>
       {/* 左侧功能区 */}
-      <div className={styles.toolsLeft}>{/* TODO: 左侧功能按钮待接入 */}</div>
+      <div className={styles.toolsLeft}>
+        <Tooltip>
+          <Tooltip.Trigger>
+            <Button
+              variant="ghost"
+              isIconOnly
+              size="sm"
+              className={styles.toolBtn}
+              onPress={onUpload}
+            >
+              <LuPlus />
+            </Button>
+          </Tooltip.Trigger>
+          <Tooltip.Content>上传文件</Tooltip.Content>
+        </Tooltip>
+
+        <Popover
+          content={<SettingsContent />}
+          trigger="click"
+          open={settingsOpen}
+          onOpenChange={setSettingsOpen}
+          placement="bottom"
+          arrow={false}
+        >
+          <Button variant="ghost" isIconOnly size="sm" className={styles.toolBtn}>
+            <LuSettings />
+          </Button>
+        </Popover>
+
+        <Tooltip>
+          <Tooltip.Trigger>
+            <Button variant="ghost" isIconOnly size="sm" className={styles.toolBtn}>
+              <LuHistory />
+            </Button>
+          </Tooltip.Trigger>
+          <Tooltip.Content>历史记录</Tooltip.Content>
+        </Tooltip>
+      </div>
 
       {/* 右侧功能区 */}
       <div className={styles.toolsRight}>

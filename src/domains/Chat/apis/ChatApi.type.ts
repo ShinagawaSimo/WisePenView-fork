@@ -52,3 +52,11 @@ export type ListSessionsApiRequest = { page?: number; size?: number };
 export type ListSessionsApiResponse = PageResult<ChatSession>;
 export type ListHistoryMessagesApiRequest = { sessionId: string; page?: number; size?: number };
 export type ListHistoryMessagesApiResponse = PageResult<MessageResponse>;
+
+/** Attachment /attachment/* */
+export interface UploadAttachmentResult {
+  session_id: string;
+  filename: string;
+  file_size: number;
+  doc_error?: string;
+}

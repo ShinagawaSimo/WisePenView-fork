@@ -1,6 +1,6 @@
 import { useCurrentChatSessionStore, useNewChatSessionStore, useNoteSelectionStore } from '@/store';
 import { createClientError, FRONTEND_CLIENT_ERROR } from '@/utils/error';
-import { ChatApi, ChatSessionApi } from '../apis/ChatApi';
+import { ChatApi, ChatAttachmentApi, ChatSessionApi } from '../apis/ChatApi';
 import type {
   ChatSession,
   CreateSessionRequest,
@@ -91,6 +91,12 @@ const listHistoryMessages = async (
   };
 };
 
+const uploadAttachment: IChatService['uploadAttachment'] = (sessionId, file, enableLibrary) =>
+  ChatAttachmentApi.uploadAttachment(sessionId, file, enableLibrary);
+
+const deleteAttachment: IChatService['deleteAttachment'] = (sessionId, filename) =>
+  ChatAttachmentApi.deleteAttachment(sessionId, filename);
+
 export const createChatServices = (): IChatService => ({
   getModels,
   createSession,
@@ -98,4 +104,6 @@ export const createChatServices = (): IChatService => ({
   deleteSession,
   listSessions,
   listHistoryMessages,
+  uploadAttachment,
+  deleteAttachment,
 });

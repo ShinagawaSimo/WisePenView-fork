@@ -18,6 +18,13 @@ export interface Model {
   category: 'reasoning' | 'chat' | 'coding' | 'all-round';
 }
 
+export interface ChatAttachmentMeta {
+  name: string;
+  size: number;
+  extension: string;
+  objectKey?: string;
+}
+
 export type MessageRole = 'user' | 'ai' | 'system';
 
 export interface Message {
@@ -31,6 +38,9 @@ export interface Message {
   createAt: number;
   loading?: boolean;
   error?: boolean;
+
+  /** 本轮发送时携带的附件元信息，用于在消息历史中展示 */
+  attachmentMetas?: ChatAttachmentMeta[];
 
   meta?: {
     provider?: string;

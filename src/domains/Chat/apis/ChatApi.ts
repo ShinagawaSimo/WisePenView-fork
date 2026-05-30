@@ -11,6 +11,7 @@ import type {
   ListSessionsApiResponse,
   RenameSessionApiRequest,
   RenameSessionApiResponse,
+  UploadAttachmentResult,
 } from './ChatApi.type';
 
 /** Chat API: /chat/* */
@@ -61,4 +62,29 @@ export const ChatSessionApi = {
   deleteSession,
   listSessions,
   listHistoryMessages,
+};
+
+/** Chat Attachment API: /attachment/* */
+
+function uploadAttachment(
+  sessionId: string,
+  file: File,
+  enableLibrary = false
+): Promise<UploadAttachmentResult> {
+  return apiPost(
+    '/attachment/upload',
+    { session_id: sessionId, file, enable_library: String(enableLibrary) },
+    {
+      timeout: 120_000,
+    }
+  );
+}
+
+function deleteAttachment(sessionId: string, filename: string): Promise<void> {
+  return apiPost('/attachment/delete', { session_id: sessionId, filename });
+}
+
+export const ChatAttachmentApi = {
+  uploadAttachment,
+  deleteAttachment,
 };

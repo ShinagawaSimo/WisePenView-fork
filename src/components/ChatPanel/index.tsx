@@ -1,4 +1,4 @@
-import type { Message, Model } from '@/components/ChatPanel/index.type';
+import type { ChatAttachmentMeta, Message, Model } from '@/components/ChatPanel/index.type';
 import { useChatService } from '@/domains';
 import { mapApiModelsToFlatModels, useChatSession } from '@/domains/Chat';
 import {
@@ -11,7 +11,7 @@ import {
 import { parseErrorMessage } from '@/utils/error';
 import { toast } from '@heroui/react';
 import { useMount, useRequest, useUpdateEffect } from 'ahooks';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { RiIndentIncrease } from 'react-icons/ri';
 import ChatInput from './ChatInput';
 import {
@@ -48,6 +48,8 @@ function ChatPanel({ collapsed }: ChatPanelProps) {
   const [historyPage, setHistoryPage] = useState(1);
   const [historyTotalPage, setHistoryTotalPage] = useState(1);
   const [loadingMoreHistory, setLoadingMoreHistory] = useState(false);
+
+  const pendingAttachmentMetasRef = useRef<Map<string, ChatAttachmentMeta[]>>(new Map());
 
   const {
     messages: liveMessages,
@@ -113,7 +115,18 @@ function ChatPanel({ collapsed }: ChatPanelProps) {
     );
   }, [modelMetaMap]);
 
-  const messages = buildPanelMessages(historyMessages, liveMessages, currentModel, status);
+  const messages = (() => {
+    const panel = buildPanelMessages(historyMessages, liveMessages, currentModel, status);
+    const map = pendingAttachmentMetasRef.current;
+    if (map.size === 0) return panel;
+    return panel.map((msg) => {
+      if (msg.role === 'user') {
+        const metas = map.get(msg.content);
+        if (metas) return { ...msg, attachmentMetas: metas };
+      }
+      return msg;
+    });
+  })();
   const hasRenderableChatContent = collectMessagesPlainText(messages).trim().length > 0;
 
   useUpdateEffect(() => {
@@ -188,7 +201,7 @@ function ChatPanel({ collapsed }: ChatPanelProps) {
   ]);
 
   const handleSend = useCallback(
-    async (text: string) => {
+    async (text: string, attachmentMetas?: ChatAttachmentMeta[]) => {
       if (!currentModel) return;
       let targetSessionId = currentSessionId;
 
@@ -205,6 +218,10 @@ function ChatPanel({ collapsed }: ChatPanelProps) {
           toast.danger(parseErrorMessage(error));
           return;
         }
+      }
+
+      if (attachmentMetas && attachmentMetas.length > 0) {
+        pendingAttachmentMetasRef.current.set(text, attachmentMetas);
       }
 
       const sendPromise = sendSessionMessage(text, {
@@ -247,6 +264,7 @@ function ChatPanel({ collapsed }: ChatPanelProps) {
   });
 
   useUpdateEffect(() => {
+    pendingAttachmentMetasRef.current.clear();
     if (!currentSessionId) {
       setHistoryMessages([]);
       setHistoryPage(1);
@@ -294,6 +312,7 @@ function ChatPanel({ collapsed }: ChatPanelProps) {
           </div>
           <div className={styles.footer}>
             <ChatInput
+              sessionId={currentSessionId ?? undefined}
               currentModelId={chatInputModelId}
               onModelChange={setCurrentModel}
               onSend={handleSend}

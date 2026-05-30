@@ -134,6 +134,99 @@
     }
   }
 
+  // 附件 chip 列表
+  .chipList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ant-margin-xxs);
+    padding: 0 var(--ant-padding-xxs);
+    margin-bottom: var(--ant-margin-sm);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 28px;
+    padding: 0 8px;
+    border-radius: var(--ant-border-radius-sm);
+    background: var(--ant-color-fill-quaternary);
+    border: 1px solid var(--ant-color-border-secondary);
+    font-size: var(--ant-font-size-sm);
+    transition: border-color 0.2s, background 0.2s;
+
+    &_done {
+      border-color: var(--ant-color-success-border);
+      background: var(--ant-color-success-bg);
+    }
+    &_error {
+      border-color: var(--ant-color-error-border);
+      background: var(--ant-color-error-bg);
+    }
+  }
+
+  .chipFileIcon {
+    flex-shrink: 0;
+    color: var(--ant-color-text-tertiary);
+    font-size: 14px;
+  }
+
+  .chipInfo {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    overflow: hidden;
+  }
+
+  .chipName {
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--ant-color-text);
+  }
+
+  .chipSize {
+    font-size: 10px;
+    color: var(--ant-color-text-quaternary);
+  }
+
+  .chipStatus {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .chipIconDone {
+    color: var(--ant-color-success);
+    font-size: 14px;
+  }
+
+  .chipIconError {
+    color: var(--ant-color-error);
+    font-size: 14px;
+  }
+
+  .chipRemove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: var(--ant-color-text-quaternary);
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 50%;
+    &:hover {
+      color: var(--ant-color-text);
+      background: var(--ant-color-fill-tertiary);
+    }
+  }
+
+  .hiddenFileInput {
+    display: none;
+  }
+
   // 5. 底部提示 (嵌套在 Container 内)
   .footerTip {
     text-align: center;
@@ -142,4 +235,27 @@
     color: var(--ant-color-text-quaternary);
     line-height: 1;
   }
+}
+
+// 6. 设置弹窗
+.settingsPanel {
+  padding: var(--ant-padding-xs) var(--ant-padding-sm);
+  min-width: 260px;
+}
+
+.settingsRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.settingsLabel {
+  font-size: var(--ant-font-size);
+}
+
+.settingsHint {
+  font-size: var(--ant-font-size-sm);
+  color: var(--ant-color-text-quaternary);
+  margin: 0;
 }
